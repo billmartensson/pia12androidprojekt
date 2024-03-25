@@ -1,6 +1,7 @@
 package se.magictechnology.pia12androidprojekt.tab1
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,6 +28,7 @@ import se.magictechnology.pia12androidprojekt.models.ShopList
 fun Shopping(shopvm : ShoppingViewmodel, goItemdetail : () -> Unit) {
 
     val currentshoplist by shopvm.currentshoplist.collectAsState()
+    val suggestedfav by shopvm.suggestedfav.collectAsState()
 
     var addTitle by remember { mutableStateOf("") }
     var addAmount by remember { mutableStateOf("") }
@@ -37,12 +39,29 @@ fun Shopping(shopvm : ShoppingViewmodel, goItemdetail : () -> Unit) {
         Text("This is list ${currentshoplist!!.title}")
 
         Row {
-            TextField(value = addTitle, onValueChange = { addTitle = it})
+            TextField(value = addTitle, onValueChange = {
+                addTitle = it
+                shopvm.suggestfav(it)
+            })
             TextField(value = addAmount, onValueChange = { addAmount = it})
             Button(onClick = {
                 shopvm.addShopItem(addTitle, addAmount)
             }) {
                 Text("Add")
+            }
+        }
+
+        if(suggestedfav != null) {
+            LazyColumn {
+                items(suggestedfav!!) { favtext ->
+                    Row(modifier = Modifier.background(Color.LightGray).clickable {
+                        shopvm.addShopItem(favtext, "1")
+                        addTitle = ""
+                        shopvm.suggestfav("")
+                    }) {
+                        Text(favtext)
+                    }
+                }
             }
         }
 

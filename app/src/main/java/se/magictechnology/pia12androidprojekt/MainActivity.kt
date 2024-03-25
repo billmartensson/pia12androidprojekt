@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -93,6 +94,11 @@ fun RootScreen() {
     var selectedItem by remember { mutableStateOf(0) }
 
     var shopvm : ShoppingViewmodel = viewModel()
+
+    LaunchedEffect(true) {
+        shopvm.loadfavorites()
+        shopvm.loadshopping()
+    }
 
     val items = listOf(
         NavigationItem.Tab1,

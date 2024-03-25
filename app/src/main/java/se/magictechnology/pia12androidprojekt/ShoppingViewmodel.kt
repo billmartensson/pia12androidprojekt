@@ -11,7 +11,6 @@ class ShoppingViewmodel : ViewModel() {
     private val _shoptext = MutableStateFlow<String>("START")
     val shoptext : StateFlow<String> get() = _shoptext
 
-
     private val _shoppinglists = MutableStateFlow<List<ShopList>?>(null)
     val shoppinglists : StateFlow<List<ShopList>?> get() = _shoppinglists
 
@@ -24,9 +23,24 @@ class ShoppingViewmodel : ViewModel() {
     private val _favorites = MutableStateFlow<List<String>?>(null)
     val favorites : StateFlow<List<String>?> get() = _favorites
 
+    private val _suggestedfav = MutableStateFlow<List<String>?>(null)
+    val suggestedfav : StateFlow<List<String>?> get() = _suggestedfav
+
 
     var isPreview = false
 
+
+    fun suggestfav(searchtext : String) {
+        if(searchtext == "") {
+            _suggestedfav.value = mutableListOf<String>()
+            return
+        }
+
+        var favs = _favorites.value!!
+        var result = favs.filter { it.lowercase().contains(searchtext.lowercase()) }
+
+        _suggestedfav.value = result
+    }
 
     fun loadfavorites() {
 
@@ -100,5 +114,10 @@ class ShoppingViewmodel : ViewModel() {
     fun changetext(newtext : String) {
         _shoptext.value = newtext
     }
+
+
+
+
+
 
 }
