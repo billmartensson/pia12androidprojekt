@@ -102,6 +102,7 @@ fun RootScreen() {
 
 
     Scaffold(
+        /*
         topBar = {
             TopAppBar(
                 colors = topAppBarColors(
@@ -113,6 +114,7 @@ fun RootScreen() {
                 }
             )
         },
+         */
         bottomBar = {
             BottomNavigation(backgroundColor = Color.Red, contentColor = Color.Cyan) {
                 items.forEachIndexed { index, screen ->
@@ -142,12 +144,15 @@ fun RootScreen() {
                 }
             }
 
-        },
+        }
+        /*
+        ,
         floatingActionButton = {
             FloatingActionButton(modifier = Modifier.alpha(if(selectedItem == 0) 1f else 0f ), onClick = {  }) {
                 Icon(Icons.Default.Add, contentDescription = "Add")
             }
         }
+         */
     ) { innerPadding ->
         NavHost(navController, startDestination = NavigationItem.Tab1.route, Modifier.padding(innerPadding)) {
             composable(NavigationItem.Tab1.route) { Tab1(navController, shopvm) }
