@@ -1,6 +1,9 @@
 package se.magictechnology.pia12androidprojekt
 
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -9,7 +12,13 @@ class UserViewmodel : ViewModel() {
     private val _isloggedin = MutableStateFlow<Boolean>(false)
     val isloggedin : StateFlow<Boolean> get() = _isloggedin
 
-
+    fun checkLogin() {
+        if(Firebase.auth.currentUser!!.isAnonymous) {
+            _isloggedin.value = false
+        } else {
+            _isloggedin.value = true
+        }
+    }
 
 
     fun loginUser(email : String, password : String, errorresult : (String?) -> Unit) {
@@ -27,15 +36,27 @@ class UserViewmodel : ViewModel() {
             return
         }
 
-        _isloggedin.value = true
+        Firebase.auth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
+            checkLogin()
+        }.addOnFailureListener {
+
+        }
     }
 
     fun registerUser(email : String, password : String, errorresult : (String?) -> Unit) {
-        _isloggedin.value = true
+        val credential = EmailAuthProvider.getCredential(email, password)
+
+        Firebase.auth.currentUser!!.linkWithCredential(credential).addOnSuccessListener {
+            checkLogin()
+        }.addOnFailureListener {
+            //TODO: Visa fel
+        }
+
     }
 
     fun logout() {
-        _isloggedin.value = false
+        //_isloggedin.value = false
+
     }
 
     fun forgotPassword(email : String) {

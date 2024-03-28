@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "152978297743",
+    "firebase_url": "https://pia12-89e4d-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "pia12-89e4d",
+    "storage_bucket": "pia12-89e4d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:152978297743:android:93155e3bc50252472631fa",
+        "android_client_info": {
+          "package_name": "se.magictechnology.pia12androidfirebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSHn1UUOWNt8Bn_v2NSdQCqoTuQcOdi54"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:152978297743:android:0b52528aeacb34de2631fa",
+        "android_client_info": {
+          "package_name": "se.magictechnology.pia12androidprojekt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSHn1UUOWNt8Bn_v2NSdQCqoTuQcOdi54"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

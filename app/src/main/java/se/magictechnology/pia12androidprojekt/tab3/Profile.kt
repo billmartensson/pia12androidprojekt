@@ -21,7 +21,7 @@ fun Profile(shopvm : ShoppingViewmodel, uservm : UserViewmodel) {
         Text("Profile")
 
         Button(onClick = {
-            uservm.logout()
+            shopvm.logout()
         }) {
             Text("logout")
         }

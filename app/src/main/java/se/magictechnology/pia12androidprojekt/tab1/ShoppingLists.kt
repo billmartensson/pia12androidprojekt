@@ -9,10 +9,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,6 +29,8 @@ fun ShoppingLists(shopvm : ShoppingViewmodel, goShoplist : (ShopList) -> Unit) {
 
     val shoppinglists by shopvm.shoppinglists.collectAsState()
 
+    var addList by remember { mutableStateOf("") }
+
     LaunchedEffect(true) {
         shopvm.loadshopping()
     }
@@ -34,6 +40,15 @@ fun ShoppingLists(shopvm : ShoppingViewmodel, goShoplist : (ShopList) -> Unit) {
         .background(Color.White)) {
         Text("SHOPPING LISTS")
 
+        Row {
+            TextField(value = addList, onValueChange = { addList = it })
+            Button(onClick = {
+                shopvm.addShoppingList(addList)
+            }) {
+                Text("Add")
+            }
+        }
+
         if(shoppinglists != null) {
             LazyColumn {
                 items(shoppinglists!!) { shoplist ->
@@ -41,6 +56,10 @@ fun ShoppingLists(shopvm : ShoppingViewmodel, goShoplist : (ShopList) -> Unit) {
                         goShoplist(shoplist)
                     }) {
                         Text(shoplist.title)
+
+                        if(shoplist.shopitems != null) {
+                            Text(shoplist.shopitems!!.size.toString())
+                        }
                     }
                 }
             }
@@ -55,6 +74,6 @@ fun ShoppingLists(shopvm : ShoppingViewmodel, goShoplist : (ShopList) -> Unit) {
 @Composable
 fun ShoppingListsPreview() {
     var shopvm : ShoppingViewmodel = viewModel()
-    shopvm.isPreview = true
+    shopvm.setupPreview()
     ShoppingLists(shopvm, goShoplist = {})
 }

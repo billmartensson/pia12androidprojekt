@@ -36,12 +36,16 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import se.magictechnology.pia12androidprojekt.tab1.Tab1
 import se.magictechnology.pia12androidprojekt.tab2.Tab2
 import se.magictechnology.pia12androidprojekt.tab3.Tab3
 import se.magictechnology.pia12androidprojekt.ui.theme.Pia12androidprojektTheme
 
 class MainActivity : ComponentActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -96,8 +100,7 @@ fun RootScreen() {
     var shopvm : ShoppingViewmodel = viewModel()
 
     LaunchedEffect(true) {
-        shopvm.loadfavorites()
-        shopvm.loadshopping()
+        shopvm.checklogin()
     }
 
     val items = listOf(

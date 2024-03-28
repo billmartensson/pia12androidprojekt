@@ -1,9 +1,11 @@
 package se.magictechnology.pia12androidprojekt.tab2
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -51,8 +53,10 @@ fun Favorites(shopvm: ShoppingViewmodel, goFavAdd : () -> Unit) {
         if(favorites != null) {
             LazyColumn {
                 items(favorites!!) { fav ->
-                    Row {
-                        Text(fav)
+                    Row(modifier = Modifier.fillMaxWidth().clickable {
+                        shopvm.deleteFavorite(fav)
+                    }) {
+                        Text(fav.title)
                     }
                 }
             }
@@ -69,7 +73,7 @@ fun Favorites(shopvm: ShoppingViewmodel, goFavAdd : () -> Unit) {
 fun FavoritesPreview() {
 
     var shopvm : ShoppingViewmodel = viewModel()
-    shopvm.isPreview = true
+    shopvm.setupPreview()
 
     Favorites(shopvm, goFavAdd = {})
 }

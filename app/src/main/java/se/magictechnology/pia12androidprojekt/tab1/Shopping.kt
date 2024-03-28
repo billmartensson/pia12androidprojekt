@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -19,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import se.magictechnology.pia12androidprojekt.ShoppingViewmodel
 import se.magictechnology.pia12androidprojekt.models.ShopItem
@@ -39,11 +41,14 @@ fun Shopping(shopvm : ShoppingViewmodel, goItemdetail : () -> Unit) {
         Text("This is list ${currentshoplist!!.title}")
 
         Row {
+
             TextField(value = addTitle, onValueChange = {
                 addTitle = it
                 shopvm.suggestfav(it)
-            })
-            TextField(value = addAmount, onValueChange = { addAmount = it})
+            }, modifier = Modifier.width(120.dp))
+
+            TextField(value = addAmount, onValueChange = { addAmount = it}, modifier = Modifier.width(70.dp))
+
             Button(onClick = {
                 shopvm.addShopItem(addTitle, addAmount)
             }) {
@@ -53,24 +58,28 @@ fun Shopping(shopvm : ShoppingViewmodel, goItemdetail : () -> Unit) {
 
         if(suggestedfav != null) {
             LazyColumn {
-                items(suggestedfav!!) { favtext ->
+                items(suggestedfav!!) { fav ->
                     Row(modifier = Modifier.background(Color.LightGray).clickable {
-                        shopvm.addShopItem(favtext, "1")
+                        shopvm.addShopItem(fav.title, "1")
                         addTitle = ""
                         shopvm.suggestfav("")
                     }) {
-                        Text(favtext)
+                        Text(fav.title)
                     }
                 }
             }
         }
 
-        LazyColumn {
-            items(currentshoplist!!.shopitems) { shopitem ->
-                Row {
-                    Text(shopitem.title)
+        if(currentshoplist!!.shopitems != null) {
+            LazyColumn {
+                items(currentshoplist!!.shopitems!!) { shopitem ->
+                    Row {
+                        Text("${shopitem.title} ${shopitem.amount}")
+                    }
                 }
             }
+        } else {
+            Text("No items yet")
         }
 
     }
@@ -82,7 +91,7 @@ fun Shopping(shopvm : ShoppingViewmodel, goItemdetail : () -> Unit) {
 fun ShoppingPreview() {
 
     var shopvm : ShoppingViewmodel = viewModel()
-    shopvm.isPreview = true
+    shopvm.setupPreview()
 
     Shopping(shopvm, goItemdetail = {})
 }

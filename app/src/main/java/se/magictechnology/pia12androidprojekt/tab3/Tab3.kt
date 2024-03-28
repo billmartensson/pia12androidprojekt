@@ -2,6 +2,7 @@ package se.magictechnology.pia12androidprojekt.tab3
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,6 +22,10 @@ fun Tab3(navController: NavController, shopvm : ShoppingViewmodel) {
     var uservm : UserViewmodel = viewModel()
 
     val isloggedin by uservm.isloggedin.collectAsState()
+
+    LaunchedEffect(true) {
+        uservm.checkLogin()
+    }
 
     NavHost(navController = navhostcon, startDestination = NavigationItem.Profile.route ) {
         composable(NavigationItem.Profile.route) {
