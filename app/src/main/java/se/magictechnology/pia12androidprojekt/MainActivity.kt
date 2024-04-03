@@ -45,9 +45,13 @@ import se.magictechnology.pia12androidprojekt.ui.theme.Pia12androidprojektTheme
 
 class MainActivity : ComponentActivity() {
 
+    var billinghelper = ShoppingBuy()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        billinghelper.setup(this)
+
         setContent {
             Pia12androidprojektTheme {
                 // A surface container using the 'background' color from the theme
@@ -55,7 +59,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    RootScreen()
+                    RootScreen(billinghelper)
                 }
             }
         }
@@ -93,7 +97,7 @@ enum class Tab2screens() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RootScreen() {
+fun RootScreen(billinghelper : ShoppingBuy) {
     val navController = rememberNavController()
     var selectedItem by remember { mutableStateOf(0) }
 
@@ -164,7 +168,7 @@ fun RootScreen() {
          */
     ) { innerPadding ->
         NavHost(navController, startDestination = NavigationItem.Tab1.route, Modifier.padding(innerPadding)) {
-            composable(NavigationItem.Tab1.route) { Tab1(navController, shopvm) }
+            composable(NavigationItem.Tab1.route) { Tab1(navController, shopvm, billinghelper) }
             composable(NavigationItem.Tab2.route) { Tab2(navController, shopvm) }
             composable(NavigationItem.Tab3.route) { Tab3(navController, shopvm) }
         }

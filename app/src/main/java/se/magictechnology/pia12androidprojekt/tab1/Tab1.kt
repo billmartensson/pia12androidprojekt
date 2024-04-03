@@ -12,17 +12,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import se.magictechnology.pia12androidprojekt.NavigationItem
+import se.magictechnology.pia12androidprojekt.ShoppingBuy
 import se.magictechnology.pia12androidprojekt.ShoppingViewmodel
 import se.magictechnology.pia12androidprojekt.tab2.FavoritesAdd
 
 @Composable
-fun Tab1(navController: NavController, shopvm : ShoppingViewmodel) {
+fun Tab1(navController: NavController, shopvm : ShoppingViewmodel, billinghelper : ShoppingBuy) {
 
     var navhostcon = rememberNavController()
 
     NavHost(navController = navhostcon, startDestination = NavigationItem.ShoppingLists.route ) {
         composable(NavigationItem.ShoppingLists.route) {
-            ShoppingLists(shopvm, goShoplist = {
+            ShoppingLists(shopvm, billinghelper, goShoplist = {
                 navhostcon.navigate("${NavigationItem.Shopping.route}/${it.fbid}")
             }
             )
@@ -50,7 +51,7 @@ fun Tab1Preview() {
 
     shopvm.isPreview = true
 
-    Tab1(navController = navController, shopvm = shopvm)
+    Tab1(navController = navController, shopvm = shopvm, billinghelper = ShoppingBuy())
 }
 
 

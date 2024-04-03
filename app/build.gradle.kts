@@ -81,4 +81,10 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-database")
+
+
+
+    val billing_version = "6.2.0"
+
+    implementation("com.android.billingclient:billing-ktx:$billing_version")
 }

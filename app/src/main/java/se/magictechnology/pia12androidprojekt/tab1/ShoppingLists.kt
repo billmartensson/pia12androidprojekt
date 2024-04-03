@@ -21,24 +21,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import se.magictechnology.pia12androidprojekt.ShoppingBuy
 import se.magictechnology.pia12androidprojekt.ShoppingViewmodel
 import se.magictechnology.pia12androidprojekt.models.ShopList
 
 @Composable
-fun ShoppingLists(shopvm : ShoppingViewmodel, goShoplist : (ShopList) -> Unit) {
+fun ShoppingLists(shopvm : ShoppingViewmodel, billinghelper : ShoppingBuy, goShoplist : (ShopList) -> Unit) {
 
     val shoppinglists by shopvm.shoppinglists.collectAsState()
 
-    var addList by remember { mutableStateOf("") }
+    val allproducts by billinghelper.allproducts.collectAsState()
 
-    LaunchedEffect(true) {
-        shopvm.loadshopping()
-    }
+    var addList by remember { mutableStateOf("") }
 
     Column(modifier = Modifier
         .fillMaxSize()
         .background(Color.White)) {
         Text("SHOPPING LISTS")
+
+        if(allproducts != null) {
+            Text(allproducts!!.first().name)
+            Text(allproducts!!.first().description)
+
+            Button(onClick = {
+                billinghelper.doBuy(allproducts!!.first())
+            }) {
+                Text("BUY!!")
+            }
+        }
 
         Row {
             TextField(value = addList, onValueChange = { addList = it })
@@ -75,5 +85,5 @@ fun ShoppingLists(shopvm : ShoppingViewmodel, goShoplist : (ShopList) -> Unit) {
 fun ShoppingListsPreview() {
     var shopvm : ShoppingViewmodel = viewModel()
     shopvm.setupPreview()
-    ShoppingLists(shopvm, goShoplist = {})
+    ShoppingLists(shopvm, ShoppingBuy(), goShoplist = {})
 }
